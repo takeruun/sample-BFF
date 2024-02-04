@@ -1,0 +1,42 @@
+version: '3'
+services:
+  user-api:
+    build: 
+      context: ./user-api
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./user-api:/go/src/app
+    tty: true
+    depends_on:
+      - db
+
+  order-api:
+    build:
+      context: ./order-api
+      dockerfile: Dockerfile
+    ports:
+      - "3002:3002"
+    volumes:
+      - ./order-api:/go/src/app
+    tty: true
+    depends_on:
+      - db
+  
+  db:
+    build:
+      context: ./postgres
+      dockerfile: ./Dockerfile
+    platform: linux/amd64
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_HOST_AUTH_METHOD: trust
+      TZ: Asia/Tokyo
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+volumes:
+  db-data:  
