@@ -1,25 +1,25 @@
 version: '3'
 services:
-  user-api:
+  user-api-rest:
     build: 
-      context: ./user-api
+      context: ./user-api-rest
       dockerfile: Dockerfile
     ports:
       - "3001:3001"
     volumes:
-      - ./user-api:/go/src/app
+      - ./user-api-rest:/go/src/app
     tty: true
     depends_on:
       - db
 
-  order-api:
+  order-api-grapql:
     build:
-      context: ./order-api
+      context: ./order-api-grapql
       dockerfile: Dockerfile
     ports:
       - "3002:3002"
     volumes:
-      - ./order-api:/go/src/app
+      - ./order-api-grapql:/go/src/app
     tty: true
     depends_on:
       - db
